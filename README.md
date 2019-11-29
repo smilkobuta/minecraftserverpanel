@@ -72,6 +72,16 @@ ApacheやNginxなどのWebサーバー上で動作し、ブラウザからアク
      .htusers.json ファイルを編集し、ログインできるユーザーのメールアドレス＆パスワードを登録してください。
      このファイルはWebアクセスできる場所に配置されていますので、場所を変えたりアクセスできない設定にするなど適宜管理をお願いします。
 
+6. **sudoでscreenコマンドを実行できるよう、sudoユーザーに加える**
+     sudo visudo を実行し、下記の行を追加する。
+
+     ```
+     www-data ALL=(smilkobuta) NOPASSWD: ALL
+     ```
+
+     www-dataはWebサーバー実行ユーザー。nginxとかapacheとか実行環境にあわせる。
+     smilkobutaはscreenコマンド実行ユーザーです。
+
 ## TODO
 
 - サーバーのアップグレード機能（現在はコマンドラインからのみ可能）
