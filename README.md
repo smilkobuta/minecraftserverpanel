@@ -1,2 +1,65 @@
-# minecraftserverpanel
-Web-based admin panel for Minecraft Bedrock Servers
+# Minecraft Server Panel
+統合版マインクラフトサーバー（Minecraft Bedrock Server)用の管理パネルです。
+ApacheやNginxなどのWebサーバー上で動作し、ブラウザからアクセスできます。
+
+※注：個人用に作ったものなので、うまく動かない場合はご自分で改造していただければうれしいです。
+※注：既存のサーバーを管理下に置きたい場合は、ここで作ったサーバーのディレクトリにワールドデータをコピーしてください。
+
+## 主な機能
+
+- サーバーの追加と削除（追加にはテンプレートとなるサーバーを利用）
+- サーバーの開始および停止
+- ポート番号やサーバー名、初期シード値の指定
+
+## 使い方
+
+1. **統合版マインクラフトサーバーのインストール**
+     https://www.minecraft.net/ja-jp/download/server/bedrock/ からサーバーをダウンロードし、インストールします。
+       例として `/home/smilkobuta/server-bedrock/` にインストールし、起動を確認できたものとします。
+
+2. **テンプレート用にサーバーディレクトリをコピー**
+     `/home/smilkobuta/server-bedrock/` はそのまま残しておいて（このディレクトリはアップグレード時にも使う）、`/home/smilkobuta/server-bedrock-template/` にコピーします。
+
+3. **起動、停止、プロパティファイル更新などのスクリプトをコピー**
+
+     > `/home/smilkobuta/` 以下へコピーするもの
+
+     ```
+     minecraftserverpanel/scripts/*.sh
+     ```
+
+     > `/home/smilkobuta/server-bedrock-template/` 以下へコピーするもの
+
+     ```
+     minecraftserverpanel/scripts/server-bedrock-template/*.sh
+     ```
+
+4. **Webパネルをインストール**
+   `minecraftserverpanel/serverpanel` をWebサーバーで読み込む。↓ はNginxでの設定例。
+   ここではルートディレクトリでアクセスする設定にしていますが（http://xxx.xxx/）、サブディレクトリでのアクセス設定も可能です（http://xxx.xxx/serverpanel/など）。
+
+     ```
+     server {
+         listen 80 default_server;
+         listen [::]:80 default_server;
+         root /var/www/html/minecraftserverpanel/serverpanel;
+         server_name _;
+     
+         location / {
+             try_files $uri $uri/ =404;
+             index index.php;
+         }
+      
+         location ~ \.php$ {
+             include snippets/fastcgi-php.conf;
+             fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+         }
+     
+     }
+     ```
+
+
+## TODO
+
+- サーバーのアップグレード機能（現在はコマンドラインからのみ可能）
+
