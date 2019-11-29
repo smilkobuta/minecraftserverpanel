@@ -4,6 +4,7 @@
     require_once 'lib/Minecraft.php';
 
     $user = User::auth();
+    
     $servers = Minecraft::get_servers();
     $message = get_session_message();
     $error_message = get_session_error_message();

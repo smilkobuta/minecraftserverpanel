@@ -3,6 +3,8 @@
     require_once 'lib/Util.php';
     require_once 'lib/Minecraft.php';
 
+    $user = User::auth();
+    
     $server_id = $_POST['server_id'] ?? null;
     if ($_GET['server_id'] ?? null) {
         $server_id = $_GET['server_id'];

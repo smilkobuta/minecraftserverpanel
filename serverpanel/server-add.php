@@ -3,6 +3,8 @@
     require_once 'lib/Util.php';
     require_once 'lib/Minecraft.php';
 
+    $user = User::auth();
+    
     $new_ports = Minecraft::get_new_server_ports();
 
     $server_add = isset($_POST['server_add']) ? true : false;
