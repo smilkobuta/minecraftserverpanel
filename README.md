@@ -11,6 +11,15 @@ ApacheやNginxなどのWebサーバー上で動作し、ブラウザからアク
 - サーバーの開始および停止
 - ポート番号やサーバー名、初期シード値の指定
 
+## スクリーンショット
+
+1. トップ画面
+![capture1](https://user-images.githubusercontent.com/3386721/69837317-71fa2c00-1291-11ea-8f16-df83024f561e.jpg)
+
+2. サーバー追加画面
+![capture2](https://user-images.githubusercontent.com/3386721/69837319-74f51c80-1291-11ea-9936-be9fc9eecbd0.jpg)
+
+
 ## 使い方
 
 1. **統合版マインクラフトサーバーのインストール**
