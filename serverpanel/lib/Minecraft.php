@@ -93,6 +93,10 @@ class Minecraft {
         self::update_server_properties($server->server_id, 'server-name', $server->server_name);
         self::update_server_properties($server->server_id, 'server-port', $server->server_port);
         self::update_server_properties($server->server_id, 'server-portv6', $server->server_port_ipv6);
+        self::update_server_properties($server->server_id, 'gamemode', $server->gamemode);
+        self::update_server_properties($server->server_id, 'difficulty', $server->difficulty);
+        self::update_server_properties($server->server_id, 'force-gamemode', 'true');
+        self::update_server_properties($server->server_id, 'allow-cheats', $server->allow_cheats ? 'true' : 'false');
 
         return $ret;
     }
@@ -147,7 +151,7 @@ class Minecraft {
         $server_statuses = [];
         if ($retval == 0 && count($outputs) > 0) {
             foreach ($outputs as $line) {
-                if (preg_match('/\s+([^\s]+)server-bedrock-([^\s]+).*Detached.*/', $line, $matches)) {
+                if (preg_match('/\s+([^\s]+)server-bedrock-([^\s]+).*(Detached|Attached).*/', $line, $matches)) {
                     $server_statuses[$matches[2]] = (object) [
                         'is_active' => true
                     ];
@@ -187,11 +191,16 @@ class Minecraft {
             }
         }
 
-        exec('sudo -u ' . self::$screen_user . ' ' . self::$server_base_dir . '/server-bedrock-' . $server_id . '/start.sh', $outputs, $retval);
+        list($retval, $outputs) = self::exec_command($server_id, 'start.sh');
         sleep(1);
+
+        // コマンド実行
+        self::exec_command($server->server_id, 'command.sh', '"gamerule showcoordinates ' . ($server->com_gamerule_showcoordinates ? 'true' : 'false') . '"');
+
         if ($retval == 0) {
             return true;
         }
+        
         throw new Exception("起動処理に失敗しました。:" . implode("\n", $outputs));
     }
 
@@ -199,7 +208,7 @@ class Minecraft {
      * サーバーを停止
      */
     public static function stop_server($server_id) {
-        exec('sudo -u ' . self::$screen_user . ' ' . self::$server_base_dir . '/server-bedrock-' . $server_id . '/stop.sh', $outputs, $retval);
+        list($retval, $outputs) = self::exec_command($server_id, 'stop.sh');
         sleep(1);
         if ($retval == 0 || count($outputs) == 0) {
             return true;
@@ -231,6 +240,11 @@ class Minecraft {
         $new_ports['server_port'] += 2;
         $new_ports['server_port_ipv6'] += 2;
         return $new_ports;
+    }
+
+    public static function exec_command($server_id, $script_name, $arguments = '') {
+        exec('sudo -u ' . self::$screen_user . ' ' . self::$server_base_dir . '/server-bedrock-' . $server_id . '/' . $script_name . ' ' . $arguments, $outputs, $retval);
+        return array($retval, $outputs);
     }
 }
 

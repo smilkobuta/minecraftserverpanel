@@ -21,10 +21,26 @@
     $server_port = $_POST['server_port'] ?? $server->server_port;
     $server_port_ipv6 = $_POST['server_port_ipv6'] ?? $server->server_port_ipv6;
 
+    $gamemode = $server->gamemode ?? 'survival';
+    $gamemode = $_POST['gamemode'] ?? $gamemode;
+
+    $difficulty = $server->difficulty ?? 'normal';
+    $difficulty = $_POST['difficulty'] ?? $difficulty;
+    
+    $com_gamerule_showcoordinates = $server->com_gamerule_showcoordinates ?? false;
+    $com_gamerule_showcoordinates = $_POST['com_gamerule_showcoordinates'] ?? $com_gamerule_showcoordinates;
+
+    $allow_cheats = $server->allow_cheats ?? false;
+    $allow_cheats = $_POST['allow_cheats'] ?? $allow_cheats;
+
     if ($server_edit) {
         $server->server_name = $server_name;
         $server->server_port = $server_port;
         $server->server_port_ipv6 = $server_port_ipv6;
+        $server->gamemode = $gamemode;
+        $server->difficulty = $difficulty;
+        $server->com_gamerule_showcoordinates = $com_gamerule_showcoordinates;
+        $server->allow_cheats = $allow_cheats;
 
         try {
             if (Minecraft::update_server($server)) {
@@ -92,6 +108,40 @@
                             IPv4用: <input id="server_port" name="server_port" type="text" class="form-control server_port" value="<?php echo h($server_port); ?>" placeholder="IPv4用。数字で入力してください" required>
                             <br>
                             IPv6用: <input id="server_port_ipv6" name="server_port_ipv6" type="text" class="form-control server_port_ipv6" value="<?php echo h($server_port_ipv6); ?>" placeholder="IPv6用。数字で入力してください" required>
+                        </div>
+                        <div class="form-group has-success">
+                            <label class="control-label mb-1">ゲームモード</label>
+                            <br>
+                            <select name="gamemode" class="form-control">
+                                <option value="survival" <?php if ($gamemode == 'survival') { ?>selected<?php } ?>>サバイバル</option>
+                                <option value="creative" <?php if ($gamemode == 'creative') { ?>selected<?php } ?>>クリエイティブ</option>
+                                <option value="adventure" <?php if ($gamemode == 'adventure') { ?>selected<?php } ?>>アドベンチャー</option>
+                            </select>
+                        </div>
+                        <div class="form-group has-success">
+                            <label class="control-label mb-1">難易度</label>
+                            <br>
+                            <select name="difficulty" class="form-control">
+                                <option value="peaceful" <?php if ($difficulty == 'peaceful') { ?>selected<?php } ?>>ピースフル</option>
+                                <option value="easy" <?php if ($difficulty == 'easy') { ?>selected<?php } ?>>イージー</option>
+                                <option value="normal" <?php if ($difficulty == 'normal') { ?>selected<?php } ?>>ノーマル</option>
+                                <option value="hard" <?php if ($difficulty == 'hard') { ?>selected<?php } ?>>ハード</option>
+                            </select>
+                        </div>
+                        <div class="form-group has-success">
+                            <label class="control-label mb-1">その他設定</label>
+                            <br>
+                            <label for="com_gamerule_showcoordinates" style="font-weight:normal;">
+                                <input name="com_gamerule_showcoordinates" type="hidden" value="0">
+                                <input id="com_gamerule_showcoordinates" name="com_gamerule_showcoordinates" type="checkbox" value="1" <?php if ($com_gamerule_showcoordinates) { ?>checked<?php } ?>>
+                                座標を表示する
+                            </label>
+                            <br>
+                            <label for="allow_cheats" style="font-weight:normal;">
+                                <input name="allow_cheats" type="hidden" value="0">
+                                <input id="allow_cheats" name="allow_cheats" type="checkbox" value="1" <?php if ($allow_cheats) { ?>checked<?php } ?>>
+                                チートの許可
+                            </label>
                         </div>
                         <div>
                             <button type="submit" name="server_edit" class="btn btn-lg btn-info btn-block">
