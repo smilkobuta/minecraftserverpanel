@@ -105,7 +105,7 @@
                                 <?php foreach ($servers as $k => $server) { ?>
                                 <tr>
                                     <th scope="row"><?php echo $k + 1; ?></th>
-                                    <td><?php echo h($server->server_name) ?></td>
+                                    <td><?php echo Minecraft::decorate_server_name($server->server_name) ?></td>
                                     <td><?php echo h($server->server_port) ?></td>
                                     <td>
                                         <?php if ($server->is_active) { ?>

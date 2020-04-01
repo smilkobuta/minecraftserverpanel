@@ -15,7 +15,9 @@
 @import "switches";
 @import "widgets";
 @import "socials";
-@import "../../vendors/animate.css/animate.min.css";
+@import "minecraft";
+@import "animate";
+
 
 .bg-flat-color-1 {
     background: #20a8d8;
@@ -999,7 +1001,7 @@ header .form-inline {
                 color: #878787;
                 display: inline-block;
                 font-size: 16px;
-                float: left;
+                // float: left;
                 padding: 0 7px;
                 width: inherit;
                 text-align: center;
@@ -1081,7 +1083,7 @@ header .form-inline {
 }
 
 .twt-feed {
-    -webkit-border-radius: 4px 4px 0 0;
+    // -webkit-border-radius: 4px 4px 0 0;
     color: #FFFFFF;
     padding: 40px 10px 10px;
     position: relative;
@@ -1976,7 +1978,7 @@ header .form-inline {
             .navbar-brand {
                 border-bottom: none;
                 display: inline-block;
-                float: left;
+                // float: left;
                 line-height: 1;
                 margin-top: 11px;
                 min-height: inherit;

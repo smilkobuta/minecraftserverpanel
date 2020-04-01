@@ -34,6 +34,7 @@ class Minecraft {
                 $servers[$k]->is_active = $v->is_active ?? null;
             }
         }
+
         return $servers;
     }
 
@@ -245,6 +246,68 @@ class Minecraft {
     public static function exec_command($server_id, $script_name, $arguments = '') {
         exec('sudo -u ' . self::$screen_user . ' ' . self::$server_base_dir . '/server-bedrock-' . $server_id . '/' . $script_name . ' ' . $arguments, $outputs, $retval);
         return array($retval, $outputs);
+    }
+
+    public static function decorate_server_name($server_name) {
+        $server_name = htmlspecialchars($server_name);
+
+        // 色替え
+        $server_name = preg_replace([
+            '/§0/',
+            '/§1/',
+            '/§2/',
+            '/§3/',
+            '/§4/',
+            '/§5/',
+            '/§6/',
+            '/§7/',
+            '/§8/',
+            '/§9/',
+            '/§a/',
+            '/§b/',
+            '/§c/',
+            '/§d/',
+            '/§e/',
+            '/§f/',
+            '/§l/',
+            '/§o/',
+            '/§m/',
+            '/§n/',
+            '/§k/',
+        ], [
+            '</span><span class="c-1">',
+            '</span><span class="c-2">',
+            '</span><span class="c-3">',
+            '</span><span class="c-4">',
+            '</span><span class="c-5">',
+            '</span><span class="c-6">',
+            '</span><span class="c-7">',
+            '</span><span class="c-8">',
+            '</span><span class="c-9">',
+            '</span><span class="c-10">',
+            '</span><span class="c-11">',
+            '</span><span class="c-12">',
+            '</span><span class="c-13">',
+            '</span><span class="c-14">',
+            '</span><span class="c-15">',
+            '</span><span class="c-16">',
+            '<span style="font-weight:900;">',
+            '<span style="font-style:italic;">',
+            '<span style="text-decoration:line-through;">',
+            '<span style="text-decoration:underline;">',
+            '<span class="obfuscated">',
+        ], $server_name);
+
+        $prev_reset_pos = 0;
+        while (strpos($server_name, '§r') !== false) {
+            $reset_pos = strpos($server_name, '§r');
+            $part1 = substr($server_name, $prev_reset_pos, $reset_pos);
+            $part2 = substr($server_name, $reset_pos + strlen('§r'));
+            $reset_code = str_repeat('</span>', substr_count($part1, '<span'));
+            $server_name = $part1 . $reset_code . $part2;
+        }
+
+        return $server_name;
     }
 }
 

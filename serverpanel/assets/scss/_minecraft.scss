@@ -1,0 +1,21 @@
+@function set-text-color($color) {
+    @if (lightness($color) > 50) {
+      @return #000000;
+    } @else {
+      @return #ffffff;
+    }
+  }
+  
+  $colors: #000 #00A #0A0 #0AA #A00 #A0A #FA0 #AAA #555 #55F #5F5 #5FF #F55 #F5F #FF5 #FFF;
+  @for $i from 1 through length($colors){
+      .bg-#{$i} {
+          background-color: nth($colors, $i);
+          color: set-text-color(nth($colors, $i));
+      }
+  }
+  @for $i from 1 through length($colors){
+      .c-#{$i} {
+          color: nth($colors, $i);
+      }
+  }
+  
