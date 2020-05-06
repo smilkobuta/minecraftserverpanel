@@ -30,4 +30,9 @@ function get_session_error_message() {
     return false;
 }
 
+function get_env($key) {
+    $ini = parse_ini_file(__DIR__ . '/.env');
+    return $ini[$key] ?? null;
+}
+
 ?>

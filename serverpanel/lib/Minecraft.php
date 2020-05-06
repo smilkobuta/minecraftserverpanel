@@ -1,8 +1,9 @@
 <?php
+require_once 'lib/Util.php';
 
 class Minecraft {
     private static $screen_user = 'smilkobuta';
-    private static $server_base_dir = '/home/smilkobuta';
+    private static $server_base_dir = null; // .env -> server_base_dir
     private static $servers_json = __DIR__ . '/../servers.json';
 
     /**
@@ -310,6 +311,7 @@ class Minecraft {
         return $server_name;
     }
 }
+Minecraft::$server_base_dir = get_env('server_base_dir');
 
 class Server {
     public $server_id;
