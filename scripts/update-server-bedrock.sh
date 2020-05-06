@@ -5,7 +5,7 @@ cd `dirname $0`
 COPY_DIR=server-bedrock
 TARGET_DIR=`basename "$1"`
 BACKUP_SUFFIX="."`date +%Y%m%d`
-COPY_FILES1=(access.sh libm-2.27.so libm.so.6 restart.sh start.sh stop.sh world_backups)
+COPY_FILES1=(access.sh restart.sh start.sh stop.sh world_backups)
 COPY_FILES2=(permissions.json server.properties whitelist.json worlds)
 
 if [ "$TARGET_DIR" = "" ]; then
